@@ -1,4 +1,4 @@
-module yeelight
+module virtual_adpater
 
 go 1.15
 
@@ -9,4 +9,4 @@ require (
 	gitee.com/liu_guilin/gateway-addon-golang v0.0.0-20201216140107-830112bf6bc5
 )
 
-replace gitee.com/liu_guilin/gateway-addon-golang v0.0.0-20201216140107-830112bf6bc5 => ./gateway-addon-golang
+replace gitee.com/liu_guilin/gateway-addon-golang v0.0.0-20201216140107-830112bf6bc5 => ./gateway-addon-golang121212

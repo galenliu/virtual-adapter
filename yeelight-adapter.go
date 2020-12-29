@@ -1,18 +1,19 @@
-package yeelight
+package virtual_adapter
 
 import (
 	"context"
 	"fmt"
-	addon "gitee.com/liu_guilin/gateway-addon-golang"
+	addon "gateway_addon_golang"
 	"log"
 	"time"
-	"yeelight/lib"
+	"virtual_adpater/lib"
 )
 
 type YeeAdapter struct {
 	*addon.AdapterProxy
 	devices map[string]*addon.Device
 }
+
 
 func NewYeeAdapter() *YeeAdapter {
 	adapter := &YeeAdapter{
@@ -40,11 +41,10 @@ func (adapter *YeeAdapter) StartPairing(timeout int) {
 	go pairing(ctx)
 }
 
-
 func (adapter *YeeAdapter) Discover() {
 	lights := lib.Discover()
 	for _, light := range lights {
-		devInfo := addon.NewDeviceInfo(light.ID,"Yeelight Hue")
+		devInfo := addon.NewDeviceInfo(light.ID, "Yeelight Hue")
 		lightBulb := addon.NewLightBulb(devInfo)
 		_, _ = light.PowerOff(0)
 		time.Sleep(time.Duration(1) * time.Second)
