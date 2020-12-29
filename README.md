@@ -1,2 +1,1 @@
-# virtual-adapter
-virtual-adapter
+# yeelight-adapter
