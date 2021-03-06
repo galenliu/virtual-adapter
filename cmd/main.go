@@ -27,6 +27,9 @@ func main() {
 
 	go systemCallCloseFunc()
 
+	yeelightAdapter.StartPairing(3000)
+	virtualAdapter.StartPairing(3000)
+
 	for {
 		if yeelightAdapter.ProxyRunning() || virtualAdapter.ProxyRunning() {
 			time.Sleep(time.Duration(3) * time.Second)

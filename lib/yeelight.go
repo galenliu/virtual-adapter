@@ -175,13 +175,40 @@ func (m *Light) Update() error {
 	if err := json.Unmarshal([]byte(res), &ures); err != nil {
 		return err
 	}
-	m.Power = ures.Result.([]interface{})[0].(string)
-	m.Bright, _ = strconv.Atoi(ures.Result.([]interface{})[1].(string))
-	m.ColorTemp, _ = strconv.Atoi(ures.Result.([]interface{})[2].(string))
-	m.RGB, _ = strconv.Atoi(ures.Result.([]interface{})[3].(string))
-	m.Hue, _ = strconv.Atoi(ures.Result.([]interface{})[4].(string))
-	m.Saturation, _ = strconv.Atoi(ures.Result.([]interface{})[5].(string))
-	m.ColorMode, _ = strconv.Atoi(ures.Result.([]interface{})[6].(string))
+
+	if ures.Result == nil {
+		return err
+	}
+	var ok bool
+	m.Power, ok = ures.Result.([]interface{})[0].(string)
+	if !ok {
+		return nil
+	}
+
+	m.Bright, err = strconv.Atoi(ures.Result.([]interface{})[1].(string))
+	if err != nil {
+		return err
+	}
+	m.ColorTemp, err = strconv.Atoi(ures.Result.([]interface{})[2].(string))
+	if err != nil {
+		return err
+	}
+	m.RGB, err = strconv.Atoi(ures.Result.([]interface{})[3].(string))
+	if err != nil {
+		return err
+	}
+	m.Hue, err = strconv.Atoi(ures.Result.([]interface{})[4].(string))
+	if err != nil {
+		return err
+	}
+	m.Saturation, err = strconv.Atoi(ures.Result.([]interface{})[5].(string))
+	if err != nil {
+		return err
+	}
+	m.ColorMode, err = strconv.Atoi(ures.Result.([]interface{})[6].(string))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -208,6 +235,20 @@ func (m *Light) SendCommand(cmd Command) (string, error) {
 
 	return bufio.NewReader(conn).ReadString('\n')
 
+}
+
+func (m *Light) Listen(handler func(any json.Any)) {
+	conn, err := net.Dial("tcp", m.Location)
+	if err != nil {
+		return
+	}
+	for {
+		data, err := bufio.NewReader(conn).ReadBytes('\n')
+		if err != nil {
+			return
+		}
+		handler(json.Get(data, "params"))
+	}
 }
 
 type RGB struct {
