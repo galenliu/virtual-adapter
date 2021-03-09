@@ -5,6 +5,7 @@ import (
 	"addon/devices"
 	"addon/properties"
 	"context"
+	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -20,45 +21,39 @@ func NewYeeAdapter() *YeeAdapter {
 	adapter := &YeeAdapter{
 		AdapterProxy: addon.NewAdapterProxy("yeelight-adapter", "yeelight-adapter", "yeelight-adapter"),
 	}
+	adapter.OnPairing = adapter.onPairing
 	adapter.locker = new(sync.Mutex)
-	adapter.OnPairing = adapter.StartPairing
 	return adapter
 }
 
-func (adapter *YeeAdapter) StartPairing(timeout float64) {
-	adapter.locker.Lock()
-	defer adapter.locker.Unlock()
-	log.Printf("adapter(%s)start pairing \t\n", adapter.ID)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeout)*time.Microsecond)
-	var pairing = func(ctx context.Context) {
-		for {
-			select {
-			case <-ctx.Done():
-				cancel()
-				log.Printf("adapter(%s) pair over---------------------- \t\n", adapter.ID)
-				return
-			default:
-				adapter.Discover()
-			}
+func (adapter *YeeAdapter) onPairing(ctx context.Context) {
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			adapter.Discover()
 		}
 	}
-	go pairing(ctx)
+
 }
 
 func (adapter *YeeAdapter) Discover() {
 	lights := lib.Discover()
+	if len(lights) == 0 {
+		return
+	}
 	for _, light := range lights {
-
-		lightBulb := devices.NewLightBulb(light.ID, "Yeelight-Bulb")
-		_, _ = light.PowerOff(0)
-		time.Sleep(time.Duration(1) * time.Second)
-		_, _ = light.PowerOn(0)
-
-		if light.Power == "on" {
-			lightBulb.On.Value = true
-		} else {
-			lightBulb.On.Value = false
+		if light.ID == "" {
+			break
 		}
+		fmt.Printf("light id %s，name:%s", light.ID, light.Name)
+		title := light.Name
+		if title == "" {
+			title = "YeeLight" + light.ID[6:]
+		}
+		lightBulb := NewYeeLight(light.ID, title)
+
 		lightBulb.On.OnValueRemoteUpdate(func(newValue bool) {
 			if newValue == true {
 				_, err := light.PowerOn(0)
@@ -82,7 +77,7 @@ func (adapter *YeeAdapter) Discover() {
 				bright.Value = light.Bright
 				bright.OnValueRemoteUpdate(func(newValue int) {
 					_, _ = light.SetBrightness(newValue, 0)
-					log.Printf("light-prop(%s-%s) changed ,new value %s", lightBulb.ID, bright.Name, newValue)
+					log.Printf("light-prop(%s-%s) changed ,new value %v", lightBulb.ID, bright.Name, newValue)
 
 				})
 				lightBulb.AddProperty(bright.Property)
@@ -94,12 +89,16 @@ func (adapter *YeeAdapter) Discover() {
 					_, _ = light.SetRGB(r, g, b, 0)
 				})
 				lightBulb.AddProperty(color.Property)
-			default:
-				continue
 			}
 		}
-
-		adapter.HandleDeviceAdded(lightBulb.Device)
+		//test light
+		{
+			lightBulb.Toggle()
+			time.Sleep(time.Duration(800) * time.Millisecond)
+			lightBulb.Toggle()
+			_, _ = light.SetBrightness(30, 0)
+		}
+		go adapter.HandleDeviceAdded(lightBulb.Device)
 	}
 }
 

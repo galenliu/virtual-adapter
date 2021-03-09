@@ -6,32 +6,37 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"virtual_adpater"
+	virtualAdapter "virtual_adpater"
 )
+
+type AdapterHandler interface {
+}
+
+type DeviceHandler interface {
+}
+
+type PropertyHandler interface {
+}
 
 func main() {
 
-	var yeelightAdapter = virtual_adapter.NewYeeAdapter()
+	var YeeAdapter = virtualAdapter.NewYeeAdapter()
 
-	var virtualAdapter = virtual_adapter.NewVirtualAdapter()
+	YeeAdapter.Pairing(30000)
 
 	var systemCallCloseFunc = func() {
 		c := make(chan os.Signal)
 		signal.Notify(c, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
 		<-c
-		yeelightAdapter.CloseProxy()
-		virtualAdapter.CloseProxy()
+		YeeAdapter.CloseProxy()
 
 		os.Exit(0)
 	}
 
 	go systemCallCloseFunc()
 
-	yeelightAdapter.StartPairing(3000)
-	virtualAdapter.StartPairing(3000)
-
 	for {
-		if yeelightAdapter.ProxyRunning() || virtualAdapter.ProxyRunning() {
+		if YeeAdapter.ProxyRunning() || YeeAdapter.ProxyRunning() {
 			time.Sleep(time.Duration(3) * time.Second)
 			fmt.Print("main running .....\r\n")
 			continue

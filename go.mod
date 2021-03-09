@@ -7,4 +7,4 @@ require (
 	github.com/json-iterator/go v1.1.10
 )
 
-replace addon v1.0.0 => ../addon
+replace addon v1.0.0 => ./gateway-addon

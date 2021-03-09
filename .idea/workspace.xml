@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="087d5f3d-c041-4589-879f-be137da860fb" name="默认的" comment="">
+    <list default="true" id="087d5f3d-c041-4589-879f-be137da860fb" name="默认的" comment="0307dev">
+      <change afterPath="$PROJECT_DIR$/gateway-addon" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yeelight-device.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/yeelight-property.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitmodules" beforeDir="false" afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway-addon-golang" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/yeelight.go" beforeDir="false" afterPath="$PROJECT_DIR$/lib/yeelight.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/virtual-adapter.go" beforeDir="false" afterPath="$PROJECT_DIR$/virtual-adapter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/virtual-adapter.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/yeelight-adapter.go" beforeDir="false" afterPath="$PROJECT_DIR$/yeelight-adapter.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +63,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -77,8 +81,8 @@
       <module name="virtual-adapter" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/cmd/main.go" />
+      <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -118,6 +122,8 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/gateway-addon-golang" />
     </ignored-roots>
+    <MESSAGE value="0307Dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="0307Dev" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
