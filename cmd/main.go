@@ -22,8 +22,6 @@ func main() {
 
 	var YeeAdapter = virtualAdapter.NewYeeAdapter()
 
-	YeeAdapter.Pairing(30000)
-
 	var systemCallCloseFunc = func() {
 		c := make(chan os.Signal)
 		signal.Notify(c, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
