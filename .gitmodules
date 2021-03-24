@@ -1,3 +1,0 @@
-[submodule "gateway-addon"]
-	path = gateway-addon
-	url = https://github.com/galenliu/gateway-addon.git

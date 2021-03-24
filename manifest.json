@@ -1,19 +1,99 @@
 {
   "author": "liuguilin",
-  "description": "virtual adapter plugin for WebThings Gateway",
+  "description": "HDL buspro light adapter plugin for WebThings Gateway",
   "gateway_specific_settings": {
     "webthings": {
-      "exec": "{path}/main",
+      "exec": "python3 {path}/main.py",
       "primary_type": "adapter",
       "strict_max_version": "*",
       "strict_min_version": "0.10.0"
     }
   },
-  "homepage_url": "https://gitee.com/liu_guilin/virtual-adapter#readme",
-  "id": "virtual-things-adapter",
+  "homepage_url": "https://github.com/WebThingsIO/tplink-adapter",
+  "id": "buspro-adapter",
   "license": "MPL-2.0",
   "manifest_version": 1,
-  "name": "virtual",
-  "short_name": "Yeelight",
-  "version": "0.0.1"
+  "name": "Buspro-adapter",
+  "options": {
+    "default": {
+      "devices": [],
+      "timeout": 10,
+      "ip": "192.168.1.50",
+      "port": 6000,
+      "log": "warn"
+    },
+    "schema": {
+      "type": "object",
+      "required": [
+        "devices"
+      ],
+      "properties": {
+        "devices": {
+          "title": "Define id and key values of your devices here",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "subnet_id": {
+                "title": "subnet address",
+                "type": "number"
+              },
+              "device_id": {
+                "title": "device address",
+                "type": "number"
+              },
+              "channel_number": {
+                "title": "channel_number",
+                "type": "number"
+              },
+              "type": {
+                "title": "Type",
+                "type": "string",
+                "enum": [
+                  "Colour Light",
+                  "Dimmer",
+                  "Light",
+                  "Switch"
+                ]
+              },
+              "config": {
+                "title": "Configuration (usually needn't be changed manually)",
+                "type": "string",
+                "default": ""
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "ip": {
+          "type": "string",
+          "title": "hdl gateway ip address"
+        },
+        "port": {
+          "type": "number",
+          "title": "hdl gateway port"
+        },
+        "timeout": {
+          "type": "number",
+          "title": "Connection timeout in seconds"
+        },
+        "log": {
+          "type": "string",
+          "title": "Log level",
+          "enum": [
+            "none",
+            "error",
+            "warn",
+            "info",
+            "debug"
+          ]
+        }
+      }
+    }
+  },
+  "short_name": "TP-Link Kasa",
+  "version": "0.6.3"
 }
